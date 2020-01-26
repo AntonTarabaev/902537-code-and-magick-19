@@ -1,7 +1,7 @@
 'use strict';
 
 var WIZARDS_COUNT = 4;
-var WIZARD_INFO = {
+var WIZARDS_INFO = {
   WIZARD_NAMES: [
     'Иван',
     'Хуан Себастьян',
@@ -42,10 +42,14 @@ var WIZARD_INFO = {
 var userDialog = document.querySelector('.setup');
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+var wizards = [];
+
+var getRandomInt = function (min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
 
 var getArrRandElement = function (arr) {
-  var rand = Math.floor(Math.random() * arr.length);
-  return arr[rand];
+  return arr[getRandomInt(0, arr.length)];
 };
 
 var getWizardName = function (names, surnames) {
@@ -56,14 +60,13 @@ var getWizardName = function (names, surnames) {
 
 var createWizard = function () {
   var wizard = {
-    name: getWizardName(WIZARD_INFO.WIZARD_NAMES, WIZARD_INFO.WIZARD_SURNAMES),
-    coatColor: getArrRandElement(WIZARD_INFO.COAT_COLORS),
-    eyesColor: getArrRandElement(WIZARD_INFO.EYES_COLORS)
+    name: getWizardName(WIZARDS_INFO.WIZARD_NAMES, WIZARDS_INFO.WIZARD_SURNAMES),
+    coatColor: getArrRandElement(WIZARDS_INFO.COAT_COLORS),
+    eyesColor: getArrRandElement(WIZARDS_INFO.EYES_COLORS)
   };
   return wizard;
 };
 
-var wizards = [];
 for (var i = 0; i < WIZARDS_COUNT; i++) {
   wizards[i] = createWizard();
 }
@@ -78,23 +81,17 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
-// Лучше же не создавать такие функции и делать, как сделано ниже?
-// var includeWizards = function (wizardsArr) {
-//   var fragment = document.createDocumentFragment();
+var renderWizards = function (wizardsArr) {
+  var fragment = document.createDocumentFragment();
 
-//   for (var i = 0; i < wizardsArr.length; i++) {
-//     fragment.appendChild(renderWizard(wizardsArr[i]));
-//   }
+  for (var j = 0; j < wizardsArr.length; j++) {
+    fragment.appendChild(renderWizard(wizardsArr[j]));
+  }
 
-//   return fragment;
-// };
-// similarListElement.appendChild(includeWizard(wizards));
+  return fragment;
+};
 
-var fragment = document.createDocumentFragment();
-for (var j = 0; j < wizards.length; j++) {
-  fragment.appendChild(renderWizard(wizards[j]));
-}
-similarListElement.appendChild(fragment);
+similarListElement.appendChild(renderWizards(wizards));
 
 userDialog.classList.remove('hidden');
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
