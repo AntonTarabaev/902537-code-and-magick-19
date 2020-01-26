@@ -42,7 +42,6 @@ var WIZARDS_INFO = {
 var userDialog = document.querySelector('.setup');
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-var wizards = [];
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -67,9 +66,15 @@ var createWizard = function () {
   return wizard;
 };
 
-for (var i = 0; i < WIZARDS_COUNT; i++) {
-  wizards[i] = createWizard();
-}
+var generateWizards = function (wizardsCount) {
+  var wizards = [];
+
+  for (var i = 0; i < wizardsCount; i++) {
+    wizards[i] = createWizard();
+  }
+
+  return wizards;
+};
 
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -91,6 +96,7 @@ var renderWizards = function (wizardsArr) {
   return fragment;
 };
 
+var wizards = generateWizards(WIZARDS_COUNT);
 similarListElement.appendChild(renderWizards(wizards));
 
 userDialog.classList.remove('hidden');
