@@ -6,15 +6,6 @@
   var setupOpen = document.querySelector('.setup-open');
   var form = userDialog.querySelector('.setup-wizard-form');
   var userNameInput = userDialog.querySelector('.setup-user-name');
-  var startPosition = {
-    x: userDialog.style.left,
-    y: userDialog.style.top
-  };
-
-  var resetCoords = function () {
-    userDialog.style.top = startPosition.y;
-    userDialog.style.left = startPosition.x;
-  };
 
   var onPopupEscPress = function (evt) {
     window.util.isEscEvent(evt, closePopup);
@@ -28,7 +19,7 @@
   var closePopup = function () {
     userDialog.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
-    resetCoords();
+    window.resetCoords();
   };
 
   setupOpen.addEventListener('click', function () {
